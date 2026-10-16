@@ -5,15 +5,12 @@ local width, height
 
 function love.load()
     width, height = love.graphics.getDimensions()
-    
+
     local paddle_width = 20
     local paddle_height = 100
     local margin = 40
 
-    -- Player 1 on the left (W / S)
     player1 = Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "w", "s")
-    
-    -- Player 2 on the right (Up / Down arrows)
     player2 = Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "up", "down")
 end
 
@@ -23,10 +20,17 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- Draw title / instructions
-    love.graphics.printf("Pong - Use W/S and Up/Down to move paddles", 0, 20, width, "center")
 
-    -- Draw paddles
+    for i = 1, height, 30 do
+        love.graphics.rectangle("fill", width / 2 - 5, i, 10, 15)
+    end
+
+    -- World Borders
+    love.graphics.rectangle("fill", 0, 0, 5, height)
+    love.graphics.rectangle("fill", width - 5, 0, 5, height)
+    love.graphics.rectangle("fill", 0, 0, width, 5)
+    love.graphics.rectangle("fill", 0, height-5, width, 5)
+
     player1:draw()
     player2:draw()
 end
