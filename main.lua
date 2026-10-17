@@ -1,7 +1,8 @@
 local Paddle = require("classes.Paddle")
 local Player = require("classes.Player")
+local Ball = require("classes.Ball")
 
-local player1, player2
+local player1, player2, ball
 local width, height
 
 function love.load()
@@ -12,6 +13,8 @@ function love.load()
     local paddle_height = 100
     local margin = 40
 
+    ball = Ball.new(width/2, height/2-10, 20, 20, 420)
+
     player1 = Player.new(Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "w", "s"), 0)
     player2 = Player.new(Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "up", "down"), 0)
 end
@@ -19,6 +22,7 @@ end
 function love.update(dt)
     player1:update(dt)
     player2:update(dt)
+    ball:update(dt)
 end
 
 function love.draw()
@@ -35,6 +39,8 @@ function love.draw()
 
     love.graphics.print("Player 1 Points: " .. player1:getPoints(), 10, 10)
     love.graphics.print("Player 2 Points: " .. player2:getPoints(), width - 150, 10)
+
+    ball:draw()
 
     player1:draw()
     player2:draw()
