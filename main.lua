@@ -20,12 +20,38 @@ function love.load()
 end
 
 function love.update(dt)
+
     player1:update(dt)
     player2:update(dt)
     ball:update(dt)
 
     player1.paddle:check_ball_collision(ball, 1)
     player2.paddle:check_ball_collision(ball, -1)
+
+    -- Point scoring logic
+    local goal = ball:reaches_goal()
+    if goal ~= 0 then
+        if goal == 1 then
+            player2:addPoint()
+        else
+            player1:addPoint()
+        end
+
+        ball.x = width / 2 - ball.width / 2
+        ball.y = height / 2 - ball.height / 2
+        ball.direction = {x = goal, y = 0}
+    end
+
+    if player1:getPoints() >= 10 then
+        print("Player 1 wins!")
+        love.event.quit()
+    else
+        if player2:getPoints() >= 10 then
+            print("Player 2 wins!")
+            love.event.quit()
+        end
+    end
+
 end
 
 function love.draw()

@@ -8,7 +8,7 @@ function Ball.new(x, y, width, height, speed, up_key, down_key)
     self.width = width or 20
     self.height = height or 20
     self.speed = speed or 420
-    self.direction = {x = -1, y = 1}
+    self.direction = {x = -1, y = 0}
     return self
 end
 
@@ -36,13 +36,13 @@ end
 
 function Ball:reaches_goal()
     if self.x <= 15 then
-        return 0
+        return -1
     else 
         if self.x + self.width >= love.graphics.getWidth() - 15 then
             return 1
         end
     end
-    return -1
+    return 0
 end
 
 function Ball:wall_collision()
