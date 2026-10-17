@@ -29,6 +29,26 @@ function Paddle:update(dt)
     end
 end
 
+function Paddle:check_ball_collision(ball, x_direction)
+    local overlaps = ball.x < self.x + self.width
+        and ball.x + ball.width > self.x
+        and ball.y < self.y + self.height
+        and ball.y + ball.height > self.y
+
+    if not overlaps or ball.direction.x * x_direction >= 0 then
+        return false
+    end
+
+    if x_direction > 0 then
+        ball.x = self.x + self.width
+    else
+        ball.x = self.x - ball.width
+    end
+
+    ball:bounce_paddle(self, x_direction)
+    return true
+end
+
 function Paddle:draw()
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end

@@ -23,6 +23,9 @@ function love.update(dt)
     player1:update(dt)
     player2:update(dt)
     ball:update(dt)
+
+    player1.paddle:check_ball_collision(ball, 1)
+    player2.paddle:check_ball_collision(ball, -1)
 end
 
 function love.draw()
