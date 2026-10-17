@@ -39,7 +39,7 @@ function love.update(dt)
 
         ball.x = width / 2 - ball.width / 2
         ball.y = height / 2 - ball.height / 2
-        ball.direction = {x = goal, y = 0}
+        ball:set_direction(goal, 0)
     end
 
     if player1:getPoints() >= 10 then
