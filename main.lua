@@ -1,8 +1,10 @@
 local StateMachine = require("states.StateMachine")
 
 local stateMachine
+local start_game_sound
 
 function love.load()
+    start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "static")
     stateMachine = StateMachine.new({
         mainMenu = require("states.MainMenu"),
         gameplay = require("states.Gameplay"),
@@ -21,5 +23,8 @@ function love.draw()
 end
 
 function love.keypressed(key)
+    if key == "return" and stateMachine.currentName == "mainMenu" then
+        start_game_sound:play()
+    end
     stateMachine:keypressed(key)
 end

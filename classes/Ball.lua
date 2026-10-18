@@ -1,9 +1,31 @@
 local Ball = {}
 Ball.__index = Ball
 
-local DEFAULT_SPEED = 420
-local speed_increase_factor = 1.25
-local time_to_reset = 2 -- time in seconds
+local DEFAULT_SPEED = 400
+local speed_increase_factor = 1.15
+local time_to_reset = 1 -- time in seconds
+
+local ball_collision_sound = love.audio.newSource("assets/sounds/ball_collision.wav", "static")
+local ball_collision_sounds = {ball_collision_sound}
+
+
+local function play_collision_sound()
+    local sound
+    for _, candidate in ipairs(ball_collision_sounds) do
+        if not candidate:isPlaying() then
+            sound = candidate
+            break
+        end
+    end
+
+    if not sound then
+        sound = ball_collision_sound:clone()
+        table.insert(ball_collision_sounds, sound)
+    end
+
+    sound:setPitch(0.5 + love.math.random() * 1.2)
+    sound:play()
+end
 
 function Ball.new(x, y, width, height, speed, up_key, down_key)
     local self = setmetatable({}, Ball)
@@ -54,6 +76,9 @@ function Ball:bounce_paddle(paddle, x_direction)
 
     self:set_direction(x_direction, y_direction)
     self.speed = self.speed * speed_increase_factor -- Increase speed by 25% on each paddle hit
+
+    play_collision_sound()
+
 end
 
 function Ball:reaches_goal()
@@ -79,6 +104,7 @@ end
 function Ball:wall_collision()
     if self.y <= 0 or self.y + self.height >= love.graphics.getHeight() then
         self.direction.y = -self.direction.y
+        play_collision_sound()
     end
 end
 

@@ -1,7 +1,10 @@
 local GameOver = {}
 
+local victory_sound = love.audio.newSource("assets/sounds/victory.wav", "static")
+
 function GameOver:enter(winner)
     self.winner = winner
+    victory_sound:play()
 end
 
 function GameOver:draw()

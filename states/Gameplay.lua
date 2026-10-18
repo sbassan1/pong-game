@@ -16,7 +16,10 @@ local paused = false
 local default_pause_duration = 1.5 -- Duration of pause in seconds
 local pause_timer
 
+local pause_sound
+
 function Gameplay:enter()
+    pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static")
     self.paused = false
     self.pauseTimer = nil
     ball = Ball.new(width/2, height/2-10)
@@ -113,6 +116,8 @@ function Gameplay:keypressed(key)
     if key ~= "escape" then
         return
     end
+
+    pause_sound:play()
 
     if not self.paused then  -- If the game is not paused, pause it and set the pause timer to nil
         self.paused = true
