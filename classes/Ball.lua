@@ -48,9 +48,9 @@ function Ball:update(dt)
         return
     end
 
-    self:wall_collision()
     self.x = self.x + self.direction.x * self.speed * dt
     self.y = self.y + self.direction.y * self.speed * dt
+    self:wall_collision()
 end
 
 function Ball:draw()
@@ -102,9 +102,20 @@ function Ball:reset(direction)
 end
 
 function Ball:wall_collision()
-    if self.y <= 0 or self.y + self.height >= love.graphics.getHeight() then
-        self.direction.y = -self.direction.y
-        play_collision_sound()
+    local bottom = love.graphics.getHeight() - self.height
+
+    if self.y <= 0 then
+        self.y = 0
+        if self.direction.y < 0 then
+            self.direction.y = -self.direction.y
+            play_collision_sound()
+        end
+    elseif self.y >= bottom then
+        self.y = bottom
+        if self.direction.y > 0 then
+            self.direction.y = -self.direction.y
+            play_collision_sound()
+        end
     end
 end
 
