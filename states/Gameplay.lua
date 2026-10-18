@@ -12,8 +12,13 @@ local paddle_width = 20
 local paddle_height = 100
 local margin = 40
 
+local paused = false
+local default_pause_duration = 1.5 -- Duration of pause in seconds
+local pause_timer
 
 function Gameplay:enter()
+    self.paused = false
+    self.pauseTimer = nil
     ball = Ball.new(width/2, height/2-10)
     player1 = Player.new(Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "w", "s"), 0)
     player2 = Player.new(Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "up", "down"), 0)
@@ -21,6 +26,18 @@ end
 
 
 function Gameplay:update(dt, machine)
+    -- Pause logic 
+    if self.paused then
+        if self.pauseTimer then
+            self.pauseTimer = self.pauseTimer - dt
+
+            if self.pauseTimer <= 0 then
+                self.paused = false
+                self.pauseTimer = nil
+            end
+        end
+        return
+    end
 
     -- Game physics updates
     player1:update(dt)
@@ -75,6 +92,35 @@ function Gameplay:draw()
     ball:draw()
     player1:draw()
     player2:draw()
+
+    -- Pause overlay display
+    if self.paused then
+        love.graphics.setColor(0, 0, 0, 0.6)
+        love.graphics.rectangle("fill", 0, 0, width, height)
+        love.graphics.setColor(1, 1, 1, 1)
+
+        if self.pauseTimer then
+            love.graphics.printf("Resuming...", 0, height / 2 - 30, width, "center")
+        else
+            love.graphics.printf("Game Paused", 0, height / 2 - 30, width, "center")
+            love.graphics.printf("Press Escape to resume", 0, height / 2 + 10, width, "center")
+        end
+    end
+
+end
+
+function Gameplay:keypressed(key)
+    if key ~= "escape" then
+        return
+    end
+
+    if not self.paused then  -- If the game is not paused, pause it and set the pause timer to nil
+        self.paused = true
+        self.pauseTimer = nil
+
+    elseif not self.pauseTimer then -- If the game is paused and the pause timer is not set, set it to resume after a delay
+        self.pauseTimer = default_pause_duration
+    end
 end
 
 return Gameplay
