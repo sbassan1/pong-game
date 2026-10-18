@@ -3,6 +3,7 @@ Ball.__index = Ball
 
 local DEFAULT_SPEED = 420
 local speed_increase_factor = 1.25
+local time_to_reset = 2 -- time in seconds
 
 function Ball.new(x, y, width, height, speed, up_key, down_key)
     local self = setmetatable({}, Ball)
@@ -16,6 +17,15 @@ function Ball.new(x, y, width, height, speed, up_key, down_key)
 end
 
 function Ball:update(dt)
+    if self.reset_timer then
+        self.reset_timer = self.reset_timer - dt
+        if self.reset_timer <= 0 then
+            self.reset_timer = nil
+            self.speed = DEFAULT_SPEED
+        end
+        return
+    end
+
     self:wall_collision()
     self.x = self.x + self.direction.x * self.speed * dt
     self.y = self.y + self.direction.y * self.speed * dt
@@ -48,15 +58,22 @@ end
 
 function Ball:reaches_goal()
     if self.x <= 15 then
-        self.speed = DEFAULT_SPEED
         return -1
     else 
         if self.x + self.width >= love.graphics.getWidth() - 15 then
-            self.speed = DEFAULT_SPEED
             return 1
         end
     end
     return 0
+end
+
+function Ball:reset(direction)
+    self.x = love.graphics.getWidth() / 2 - self.width / 2
+    self.y = love.graphics.getHeight() / 2 - self.height / 2
+
+    self.speed = 0
+    self.reset_timer = time_to_reset
+    self:set_direction(direction, 0)
 end
 
 function Ball:wall_collision()
