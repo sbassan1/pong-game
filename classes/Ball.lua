@@ -2,6 +2,7 @@ local Ball = {}
 Ball.__index = Ball
 
 local DEFAULT_SPEED = 420
+local speed_increase_factor = 1.25
 
 function Ball.new(x, y, width, height, speed, up_key, down_key)
     local self = setmetatable({}, Ball)
@@ -42,7 +43,7 @@ function Ball:bounce_paddle(paddle, x_direction)
     y_direction = math.max(-1, math.min(1, y_direction))
 
     self:set_direction(x_direction, y_direction)
-    self.speed = self.speed * 1.15 -- Increase speed by 5% on each paddle hit
+    self.speed = self.speed * speed_increase_factor -- Increase speed by 25% on each paddle hit
 end
 
 function Ball:reaches_goal()
