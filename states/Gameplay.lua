@@ -18,7 +18,11 @@ local pause_timer
 
 local pause_sound
 
+local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
+
+
 function Gameplay:enter()
+    love.graphics.setFont(font)
     pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static")
     self.paused = false
     self.pauseTimer = nil
@@ -89,7 +93,7 @@ function Gameplay:draw()
 
     -- Score display 
     love.graphics.print("Player 1 Points: " .. player1:getPoints(), 10, 10)
-    love.graphics.print("Player 2 Points: " .. player2:getPoints(), width - 150, 10)
+    love.graphics.print("Player 2 Points: " .. player2:getPoints(), width - 220, 10)
 
     -- Game object rendering
     ball:draw()
