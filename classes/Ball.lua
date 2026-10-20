@@ -5,7 +5,7 @@ local DEFAULT_SPEED = 400
 local speed_increase_factor = 1.15
 local time_to_reset = 1 -- time in seconds
 
-local ball_collision_sound = love.audio.newSource("assets/sounds/ball_collision.wav", "static")
+local ball_collision_sound = love.audio.newSource("assets/sounds/ball_collision.wav", "static") -- https://samplefocus.com/samples/retro-pong-hit-sfx
 local ball_collision_sounds = {ball_collision_sound}
 
 

@@ -12,7 +12,7 @@ function love.load()
         scanlines = {opacity = 0.35, thickness = 2}
     }
 
-    start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "static")
+    start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "static") -- https://samplefocus.com/samples/select-retro-videogame-sfx?search_id=222245023
     stateMachine = StateMachine.new({
         mainMenu = require("states.MainMenu"),
         gameplay = require("states.Gameplay"),

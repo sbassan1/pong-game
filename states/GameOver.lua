@@ -1,6 +1,6 @@
 local GameOver = {}
 
-local victory_sound = love.audio.newSource("assets/sounds/victory.wav", "static")
+local victory_sound = love.audio.newSource("assets/sounds/victory.wav", "static") -- https://pixabay.com/es/sound-effects/pel%C3%ADculas-y-efectos-especiales-victory-85561/
 local font = love.graphics.newFont('assets/fonts/game_over.ttf', 200)
 
 function GameOver:enter(winner)

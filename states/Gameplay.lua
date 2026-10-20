@@ -23,7 +23,7 @@ local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 function Gameplay:enter()
     love.graphics.setFont(font)
-    pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static")
+    pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
     self.paused = false
     self.pauseTimer = nil
     ball = Ball.new(width/2, height/2-10)
