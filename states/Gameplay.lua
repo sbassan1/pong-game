@@ -5,25 +5,22 @@ local Player = require("classes.Player")
 local Ball = require("classes.Ball")
 
 local player1, player2, ball
-local match_points = 1 -- Points required to win the game
+local match_points = 3 -- Points required to win the game
 local width, height = love.graphics.getDimensions()
 
 local paddle_width = 20
 local paddle_height = 100
 local margin = 40
 
-local paused = false
 local default_pause_duration = 1.5 -- Duration of pause in seconds
-local pause_timer
 
-local pause_sound
 
 local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 
 function Gameplay:enter()
     love.graphics.setFont(font)
-    pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
+    self.pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
     self.paused = false
     self.pauseTimer = nil
     ball = Ball.new(width/2, height/2-10)
@@ -59,15 +56,15 @@ function Gameplay:update(dt, machine)
     local goal = ball:reaches_goal()
     if goal ~= 0 then
         if goal == 1 then
-            player2:addPoint()
-        else
             player1:addPoint()
+        else
+            player2:addPoint()
         end
         ball:reset(goal)
     end
 
     -- Winning condition logic
-    Gameplay:game_end(machine)
+    self:game_end(machine)
 end
 
 function Gameplay:game_end(machine)
@@ -120,7 +117,6 @@ function Gameplay:keypressed(key)
     if key ~= "escape" then
         return
     end
-
     pause_sound:play()
 
     if not self.paused then  -- If the game is not paused, pause it and set the pause timer to nil
