@@ -9,21 +9,21 @@ function Player.new(paddle, points)
     return self
 end
 
-function Player:addPoint()
+function Player:add_point()
     self.points = self.points + 1
 end
 
-function Player:getPoints()
+function Player:get_points()
     return self.points
 end
 
 function Player:update(dt)
-    self.paddle:update(dt)
+    local movement = self.paddle:get_keyboard_input()
+    self.paddle:update(dt, movement)
 
     if love.keyboard.isDown('q') then
         love.event.quit()
     end
-
 end
 
 function Player:draw()

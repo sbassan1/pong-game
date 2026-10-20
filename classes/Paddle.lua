@@ -13,14 +13,19 @@ function Paddle.new(x, y, width, height, speed, up_key, down_key)
     return self
 end
 
-function Paddle:update(dt)
+function Paddle:get_keyboard_input()
     if love.keyboard.isDown(self.up_key) then
-        self.y = self.y - self.speed * dt
+        return -1
     elseif love.keyboard.isDown(self.down_key) then
-        self.y = self.y + self.speed * dt
+        return 1
     end
 
-    -- Keep paddle within screen bounds
+    return 0
+end
+
+function Paddle:update(dt, movement)
+    self.y = self.y + movement * self.speed * dt
+
     local window_height = love.graphics.getHeight()
     if self.y < 0 then
         self.y = 0

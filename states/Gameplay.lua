@@ -14,15 +14,14 @@ local margin = 40
 
 local default_pause_duration = 1.5 -- Duration of pause in seconds
 
-
+local pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
 local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 
 function Gameplay:enter()
     love.graphics.setFont(font)
-    self.pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
     self.paused = false
-    self.pauseTimer = nil
+    self.pause_timer = nil
     ball = Ball.new(width/2, height/2-10)
     player1 = Player.new(Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "w", "s"), 0)
     player2 = Player.new(Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "up", "down"), 0)
@@ -32,12 +31,12 @@ end
 function Gameplay:update(dt, machine)
     -- Pause logic 
     if self.paused then
-        if self.pauseTimer then
-            self.pauseTimer = self.pauseTimer - dt
+        if self.pause_timer then
+            self.pause_timer = self.pause_timer - dt
 
-            if self.pauseTimer <= 0 then
+            if self.pause_timer <= 0 then
                 self.paused = false
-                self.pauseTimer = nil
+                self.pause_timer = nil
             end
         end
         return
@@ -48,7 +47,7 @@ function Gameplay:update(dt, machine)
     player2:update(dt)
     ball:update(dt)
 
-    -- Colission detection for paddles and ball
+    -- Collision detection for paddles and ball
     player1.paddle:check_ball_collision(ball, 1)
     player2.paddle:check_ball_collision(ball, -1)
 
@@ -56,9 +55,9 @@ function Gameplay:update(dt, machine)
     local goal = ball:reaches_goal()
     if goal ~= 0 then
         if goal == 1 then
-            player1:addPoint()
+            player1:add_point()
         else
-            player2:addPoint()
+            player2:add_point()
         end
         ball:reset(goal)
     end
@@ -68,9 +67,9 @@ function Gameplay:update(dt, machine)
 end
 
 function Gameplay:game_end(machine)
-    if player1:getPoints() >= match_points then
+    if player1:get_points() >= match_points then
         machine:switch("gameOver", "Player 1")
-    elseif player2:getPoints() >= match_points then
+    elseif player2:get_points() >= match_points then
         machine:switch("gameOver", "Player 2")
     end
 end
@@ -89,8 +88,8 @@ function Gameplay:draw()
 
 
     -- Score display 
-    love.graphics.print("Player 1 Points: " .. player1:getPoints(), 10, 10)
-    love.graphics.print("Player 2 Points: " .. player2:getPoints(), width - 220, 10)
+    love.graphics.print("Player 1 Points: " .. player1:get_points(), 10, 10)
+    love.graphics.print("Player 2 Points: " .. player2:get_points(), width - 220, 10)
 
     -- Game object rendering
     ball:draw()
@@ -103,7 +102,7 @@ function Gameplay:draw()
         love.graphics.rectangle("fill", 0, 0, width, height)
         love.graphics.setColor(1, 1, 1, 1)
 
-        if self.pauseTimer then
+        if self.pause_timer then
             love.graphics.printf("Resuming...", 0, height / 2 - 30, width, "center")
         else
             love.graphics.printf("Game Paused", 0, height / 2 - 30, width, "center")
@@ -121,10 +120,11 @@ function Gameplay:keypressed(key)
 
     if not self.paused then  -- If the game is not paused, pause it and set the pause timer to nil
         self.paused = true
-        self.pauseTimer = nil
+        self.pause_timer = nil
 
-    elseif not self.pauseTimer then -- If the game is paused and the pause timer is not set, set it to resume after a delay
-        self.pauseTimer = default_pause_duration
+    elseif not self.pause_timer then -- If the game is paused and the pause timer is not set, set it to resume after a delay
+        pause_sound:play()
+        self.pause_timer = default_pause_duration
     end
 end
 

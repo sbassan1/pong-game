@@ -32,4 +32,4 @@ A small, local two-player Pong game built with [LÖVE](https://love2d.org/).
 - Press **Escape** during a match to pause or resume.
 - Press **Q** to quit during a match or from the winner screen.
 
-The first player to score a point wins.
+The first player to score three points wins.
