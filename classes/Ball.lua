@@ -27,7 +27,7 @@ local function play_collision_sound()
     sound:play()
 end
 
-function Ball.new(x, y, width, height, speed, up_key, down_key)
+function Ball.new(x, y, width, height, speed)
     local self = setmetatable({}, Ball)
     self.x = x
     self.y = y
@@ -57,8 +57,6 @@ function Ball:draw()
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
 
--- Aditional methods for Ball class
-
 function Ball:set_direction(x, y)
     local length = math.sqrt(x * x + y * y)
     if length == 0 then return end
@@ -75,7 +73,7 @@ function Ball:bounce_paddle(paddle, x_direction)
     y_direction = math.max(-1, math.min(1, y_direction))
 
     self:set_direction(x_direction, y_direction)
-    self.speed = self.speed * speed_increase_factor -- Increase speed by 25% on each paddle hit
+    self.speed = self.speed * speed_increase_factor
 
     play_collision_sound()
 
