@@ -1,7 +1,6 @@
 local Ball = {}
 Ball.__index = Ball
 
-local DEFAULT_SPEED = 400
 local speed_increase_factor = 1.15
 local time_to_reset = 1 -- time in seconds
 
@@ -29,6 +28,7 @@ end
 
 function Ball.new(x, y, width, height, speed)
     local self = setmetatable({}, Ball)
+    self.default_speed = love.graphics.getWidth() * 0.4
     self.x = x
     self.y = y
     self.width = width or 20
@@ -43,7 +43,7 @@ function Ball:update(dt)
         self.reset_timer = self.reset_timer - dt
         if self.reset_timer <= 0 then
             self.reset_timer = nil
-            self.speed = DEFAULT_SPEED
+            self.speed = self.default_speed
         end
         return
     end

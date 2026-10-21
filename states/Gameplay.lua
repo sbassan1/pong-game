@@ -8,8 +8,9 @@ local player1, player2, ball
 local match_points = 3 -- Points required to win the game
 local width, height = love.graphics.getDimensions()
 
-local paddle_width = 20
-local paddle_height = 100
+local paddle_width = love.graphics.getWidth() * (10/760)
+local paddle_height = love.graphics.getHeight() * (5/38)
+local paddle_speed = love.graphics.getWidth() * 0.4
 local margin = 40
 
 local default_pause_duration = 1.5 -- Duration of pause in seconds
@@ -22,9 +23,9 @@ function Gameplay:enter()
     love.graphics.setFont(font)
     self.paused = false
     self.pause_timer = nil
-    ball = Ball.new(width/2, height/2-10)
-    player1 = Player.new(Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "w", "s"), 0)
-    player2 = Player.new(Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, 500, "up", "down"), 0)
+    ball = Ball.new(width/2, height/2-10, paddle_width, paddle_width, paddle_speed)
+    player1 = Player.new(Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, paddle_speed, "w", "s"), 0)
+    player2 = Player.new(Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, paddle_speed, "up", "down"), 0)
 end
 
 
