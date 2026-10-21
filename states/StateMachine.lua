@@ -42,4 +42,10 @@ function StateMachine:keypressed(key)
     end
 end
 
+function StateMachine:mousepressed(x, y, button)
+    if self.current and self.current.mousepressed then
+        self.current:mousepressed(x, y, button, self)
+    end
+end
+
 return StateMachine

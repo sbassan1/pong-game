@@ -38,3 +38,7 @@ function love.keypressed(key)
     end
     stateMachine:keypressed(key)
 end
+
+function love.mousepressed(x, y, button)
+    stateMachine:mousepressed(x, y, button)
+end

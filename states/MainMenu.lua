@@ -1,10 +1,23 @@
 local MainMenu = {}
 
-local title_font, subtitle_font
+local Button = require("classes.Button")
 
 function MainMenu:enter()
-    title_font = love.graphics.newFont('assets/fonts/game_over.ttf', 200)
-    subtitle_font = love.graphics.newFont('assets/fonts/game_over.ttf', 120)
+    self.title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
+    self.button_font = love.graphics.newFont("assets/fonts/game_over.ttf", 48)
+
+    local width, height = love.graphics.getDimensions()
+    local button_width, button_height = 360, 90
+    self.play_button = Button.new(
+        (width - button_width) / 2,
+        height / 2 + 100,
+        button_width,
+        button_height,
+        function(_, _, _, _, machine)
+            machine:switch("gameplay")
+        end,
+        "Click to play"
+    )
 end
 
 function MainMenu:update(dt)
@@ -12,10 +25,14 @@ end
 
 function MainMenu:draw()
     local width, height = love.graphics.getDimensions()
-    love.graphics.setFont(title_font)
-    love.graphics.printf("PONG", 0, height / 2 - 120, width, "center")
-    love.graphics.setFont(subtitle_font)
-    love.graphics.printf("Press Enter to play", 0, height / 2 - 30, width, "center")
+    love.graphics.setFont(self.title_font)
+    love.graphics.printf("PONG", 0, height / 2 - 180, width, "center")
+    love.graphics.setFont(self.button_font)
+    self.play_button:draw()
+end
+
+function MainMenu:mousepressed(x, y, button, machine)
+    self.play_button:mousepressed(x, y, button, machine)
 end
 
 function MainMenu:keypressed(key, machine)
