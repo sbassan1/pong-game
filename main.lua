@@ -2,7 +2,6 @@ local StateMachine = require("states.StateMachine")
 local moonshine = require 'libraries.moonshine'
 
 local stateMachine
-local start_game_sound
 local shader
 
 function love.load()
@@ -12,7 +11,6 @@ function love.load()
         scanlines = {opacity = 0.35, thickness = 2}
     }
 
-    start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "static") -- https://samplefocus.com/samples/select-retro-videogame-sfx?search_id=222245023
     stateMachine = StateMachine.new({
         mainMenu = require("states.MainMenu"),
         gameplay = require("states.Gameplay"),
@@ -33,9 +31,6 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    if key == "return" and stateMachine.currentName == "mainMenu" then
-        start_game_sound:play()
-    end
     stateMachine:keypressed(key)
 end
 

@@ -16,13 +16,15 @@ local margin = 40
 local default_pause_duration = 1.5 -- Duration of pause in seconds
 
 local pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
-local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
+local start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "static") -- https://samplefocus.com/samples/select-retro-videogame-sfx?search_id=222245023
 
+local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 function Gameplay:enter()
     love.graphics.setFont(font)
     self.paused = false
     self.pause_timer = nil
+    start_game_sound:play()
     ball = Ball.new(width/2, height/2-10, paddle_width, paddle_width, paddle_speed)
     player1 = Player.new(Paddle.new(margin, height / 2 - paddle_height / 2, paddle_width, paddle_height, paddle_speed, "w", "s"), 0)
     player2 = Player.new(Paddle.new(width - margin - paddle_width, height / 2 - paddle_height / 2, paddle_width, paddle_height, paddle_speed, "up", "down"), 0)
