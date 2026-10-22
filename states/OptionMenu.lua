@@ -1,7 +1,8 @@
 local OptionMenu = {}
 
-local Button = require("classes.Button")
-local ButtonContainer = require("classes.ButtonContainer")
+local Button = require("classes.UI.Button")
+local ButtonContainer = require("classes.UI.ButtonContainer")
+local ArrowSelector = require("classes.UI.ArrowSelector")
 
 function OptionMenu:enter()
 
@@ -12,7 +13,7 @@ function OptionMenu:enter()
     local button_width, button_height = 360, 90
 
     self.buttons = ButtonContainer.new()
-    
+
     self.buttons:add(Button.new(
         (width - button_width) / 2,
         6 * height / 7,
@@ -23,6 +24,12 @@ function OptionMenu:enter()
         end,
         "Return to Main Menu"
     ))
+
+    self.resolutionOptions = ArrowSelector.new(width/7, 2* height / 7, button_width, button_height, {
+        "1366x768",
+        "1920x1080",
+        "1280x720"
+    })
 
 end
 
@@ -37,14 +44,17 @@ function OptionMenu:draw()
 
     love.graphics.setFont(self.button_font)
     self.buttons:draw()
+    self.resolutionOptions:draw()
 end
 
 function OptionMenu:mousepressed(x, y, button, machine)
     self.buttons:mousepressed(x, y, button, machine)
+    self.resolutionOptions:mousepressed(x, y, button)
 end
 
 function OptionMenu:keypressed(key, machine)
     self.buttons:keypressed(key, machine)
+
 end
 
 function OptionMenu:mousemoved()

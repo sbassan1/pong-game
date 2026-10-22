@@ -1,7 +1,7 @@
 local MainMenu = {}
 
-local Button = require("classes.Button")
-local ButtonContainer = require("classes.ButtonContainer")
+local Button = require("classes.UI.Button")
+local ButtonContainer = require("classes.UI.ButtonContainer")
 
 function MainMenu:enter()
     self.title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
