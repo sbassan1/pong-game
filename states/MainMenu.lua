@@ -27,6 +27,17 @@ function MainMenu:enter()
         button_width,
         button_height,
         function(_, _, _, _, machine)
+            machine:switch("options")
+        end,
+        "Options"
+    ))
+
+    self.buttons:add(Button.new(
+        (width - button_width) / 2,
+        height / 2 + 300,
+        button_width,
+        button_height,
+        function(_, _, _, _, machine)
             love.event.quit()
         end,
         "Quit"

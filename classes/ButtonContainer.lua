@@ -5,7 +5,7 @@ ButtonContainer.__index = ButtonContainer
 function ButtonContainer.new(buttons)
     local container = setmetatable({
         buttons = {},
-        selected_index = 0,
+        selected_index = 1,
         input_mode = "keyboard",
     }, ButtonContainer)
 
@@ -20,11 +20,6 @@ function ButtonContainer:add(button)
     assert(type(button) == "table" and type(button.draw) == "function", "Expected a button")
 
     table.insert(self.buttons, button)
-    if self.selected_index == 0 then
-        self.selected_index = 1
-    end
-    self:updateSelection()
-
     return button
 end
 

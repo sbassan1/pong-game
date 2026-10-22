@@ -15,6 +15,7 @@ function love.load()
         mainMenu = require("states.MainMenu"),
         gameplay = require("states.Gameplay"),
         gameOver = require("states.GameOver"),
+        options = require("states.OptionMenu"),
     })
 
     stateMachine:switch("mainMenu")
