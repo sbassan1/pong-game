@@ -25,7 +25,9 @@ function OptionMenu:enter()
         "Return to Main Menu"
     ))
 
-    self.resolutionOptions = ArrowSelector.new(width/7, 2* height / 7, button_width, button_height, {
+    self.resolutionOptions = ArrowSelector.new(width/7, 2* height / 7, button_width, button_height, 
+    "Resolution",
+    {
         "1366x768",
         "1920x1080",
         "1280x720"

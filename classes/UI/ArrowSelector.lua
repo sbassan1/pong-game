@@ -2,12 +2,13 @@
 local ArrowSelector = {}
 ArrowSelector.__index = ArrowSelector
 
-function ArrowSelector.new(x, y, width, height, options)
+function ArrowSelector.new(x, y, width, height, label ,options)
     return setmetatable({
         x = x,
         y = y,
         size_x = width,
         size_y = height,
+        label = label,
         options = options,
         selected_index = 1,
     }, ArrowSelector)
@@ -51,10 +52,20 @@ function ArrowSelector:draw()
     local arrow_width = self.size_y
     local left = self.x - arrow_width
     local right = self.x + self.size_x
-    love.graphics.setColor(1, 1, 1, 1)
+    
+    -- Drawing the boxes and label 
     love.graphics.rectangle("line", left, self.y, self.size_x + 2 * arrow_width, self.size_y)
     love.graphics.line(self.x, self.y, self.x, self.y + self.size_y)
     love.graphics.line(right, self.y, right, self.y + self.size_y)
+
+    love.graphics.printf(
+        self.label,
+        self.x,
+        self.y - (self.size_y + font:getHeight()) / 2,
+        self.size_x,
+        "center"
+    )
+
     love.graphics.printf(
         "<",
         left,
