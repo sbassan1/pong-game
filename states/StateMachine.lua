@@ -48,4 +48,10 @@ function StateMachine:mousepressed(x, y, button)
     end
 end
 
+function StateMachine:mousemoved(x, y, dx, dy)
+    if self.current and self.current.mousemoved then
+        self.current:mousemoved(x, y, dx, dy, self)
+    end
+end
+
 return StateMachine

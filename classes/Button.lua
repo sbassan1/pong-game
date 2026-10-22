@@ -11,6 +11,7 @@ function Button.new(x, y, width, height, event, label)
         size_y = height,
         event = event,
         label = label or "",
+        selected = false
     }, Button)
 end
 
@@ -21,23 +22,28 @@ function Button:contains(x, y)
         and y <= self.y + self.size_y
 end
 
+function Button:activate(...)
+    self.event(self, ...)
+end
 
 function Button:mousepressed(x, y, mouse_button, ...)
     if mouse_button ~= 1 or not self:contains(x, y) then
         return false
     end
 
-    self.event(self, x, y, mouse_button, ...)
+    self:activate(x, y, mouse_button, ...)
     return true
 end
 
-function Button:draw()
+function Button:draw(highlighted)
     local mouse_x, mouse_y = love.mouse.getPosition()
-    local hovered = self:contains(mouse_x, mouse_y) 
+    if highlighted == nil then
+        highlighted = self.selected or self:contains(mouse_x, mouse_y)
+    end
     local font = love.graphics.getFont()
 
     love.graphics.push("all")
-    if hovered then
+    if highlighted then
         love.graphics.setColor(0.25, 0.25, 0.25, 1)
     else
         love.graphics.setColor(0.1, 0.1, 0.1, 1)

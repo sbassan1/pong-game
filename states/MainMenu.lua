@@ -1,6 +1,7 @@
 local MainMenu = {}
 
 local Button = require("classes.Button")
+local ButtonContainer = require("classes.ButtonContainer")
 
 function MainMenu:enter()
     self.title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
@@ -9,7 +10,8 @@ function MainMenu:enter()
     local width, height = love.graphics.getDimensions()
     local button_width, button_height = 360, 90
 
-    self.play_button = Button.new(
+    self.buttons = ButtonContainer.new()
+    self.buttons:add(Button.new(
         (width - button_width) / 2,
         height / 2 + 100,
         button_width,
@@ -18,8 +20,8 @@ function MainMenu:enter()
             machine:switch("gameplay")
         end,
         "Click to play"
-    )
-    self.quit_button = Button.new(
+    ))
+    self.buttons:add(Button.new(
         (width - button_width) / 2,
         height / 2 + 200,
         button_width,
@@ -28,7 +30,7 @@ function MainMenu:enter()
             love.event.quit()
         end,
         "Quit"
-    )
+    ))
 
 
 end
@@ -42,20 +44,19 @@ function MainMenu:draw()
     love.graphics.printf("PONG", 0, height / 2 - 180, width, "center")
 
     love.graphics.setFont(self.button_font)
-    self.play_button:draw()
-    self.quit_button:draw()
+    self.buttons:draw()
 end
 
 function MainMenu:mousepressed(x, y, button, machine)
-    self.play_button:mousepressed(x, y, button, machine)
-    self.quit_button:mousepressed(x, y, button, machine)
+    self.buttons:mousepressed(x, y, button, machine)
 end
 
 function MainMenu:keypressed(key, machine)
-    if key == "return" then
-        love.graphics.setNewFont(20)
-        machine:switch("gameplay")
-    end
+    self.buttons:keypressed(key, machine)
+end
+
+function MainMenu:mousemoved()
+    self.buttons:mousemoved()
 end
 
 return MainMenu

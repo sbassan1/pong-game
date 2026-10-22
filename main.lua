@@ -37,3 +37,7 @@ end
 function love.mousepressed(x, y, button)
     stateMachine:mousepressed(x, y, button)
 end
+
+function love.mousemoved(x, y, dx, dy)
+    stateMachine:mousemoved(x, y, dx, dy)
+end
