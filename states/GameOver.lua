@@ -41,10 +41,5 @@ function GameOver:mousepressed(x, y, button, machine)
     self.quit_button:mousepressed(x, y, button, machine)
 end
 
-function GameOver:keypressed(key, machine)
-    if key == "q" then
-        love.event.quit()
-    end
-end
 
 return GameOver
