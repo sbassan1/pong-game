@@ -10,6 +10,7 @@ A small, local two-player Pong game built with [LÖVE](https://love2d.org/).
 - Score tracking and a winner screen
 - Ball and paddle collisions
 - Sound effects
+- Menu handling
 - CRT and scanline visual effects
 
 ## Getting started
@@ -28,8 +29,7 @@ A small, local two-player Pong game built with [LÖVE](https://love2d.org/).
 | Move up | W | Up Arrow |
 | Move down | S | Down Arrow |
 
-- Press **Enter** at the title screen to start.
+- Press **Enter** (or **Spacebar**) when selecting a button to press it, you can also you your mouse
 - Press **Escape** during a match to pause or resume.
-- Press **Q** to quit during a match or from the winner screen.
 
 The first player to score three points wins.
