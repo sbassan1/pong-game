@@ -5,7 +5,7 @@ local Player = require("classes.Player")
 local Ball = require("classes.Ball")
 
 local player1, player2, ball
-local match_points = 3 -- Points required to win the game
+local match_points = 1 -- Points required to win the game
 local width, height = love.graphics.getDimensions()
 
 local paddle_width = love.graphics.getWidth() * (10/760)
