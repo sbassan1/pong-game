@@ -1,10 +1,23 @@
 local StateMachine = require("states.StateMachine")
 local moonshine = require 'libraries.moonshine'
+local Settings = require("settings")
 
 local stateMachine
 local shader
 
 function love.load()
+    Settings.load()
+
+    local width, height = Settings.resolution:match("^(%d+)x(%d+)$")
+    local mode_set, mode_error = love.window.setMode(tonumber(width), tonumber(height), {
+        resizable = false,
+        fullscreen = false,
+    })
+    if not mode_set then
+        print("Could not apply saved resolution: " .. tostring(mode_error))
+    end
+    love.audio.setVolume(Settings.volume / 100)
+
     shader = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines)
     shader.parameters = {
         crt = {distortionFactor = {1.035, 1.045}},

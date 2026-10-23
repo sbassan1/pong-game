@@ -6,11 +6,8 @@ local Ball = require("classes.Ball")
 
 local player1, player2, ball
 local match_points = 1 -- Points required to win the game
-local width, height = love.graphics.getDimensions()
-
-local paddle_width = love.graphics.getWidth() * (10/760)
-local paddle_height = love.graphics.getHeight() * (5/38)
-local paddle_speed = love.graphics.getWidth() * 0.4
+local width, height
+local paddle_width, paddle_height, paddle_speed
 local margin = 40
 
 local default_pause_duration = 1.5 -- Duration of pause in seconds
@@ -21,6 +18,11 @@ local start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "s
 local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 function Gameplay:enter()
+    width, height = love.graphics.getDimensions()
+    paddle_width = width * (10/760)
+    paddle_height = height * (5/38)
+    paddle_speed = width * 0.4
+
     love.graphics.setFont(font)
     self.paused = false
     self.pause_timer = nil
