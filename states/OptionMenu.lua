@@ -43,6 +43,8 @@ function OptionMenu:enter(volume, resolution)
         button_width,
         button_height,
         function(_, _, _, _, machine)
+            local pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
+            pause_sound:play()
             machine:switch("mainMenu")
         end,
         "Return to Main Menu"
@@ -84,6 +86,8 @@ function OptionMenu:enter(volume, resolution)
                 print("Could not save settings: " .. tostring(save_error))
             end
 
+            local pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
+            pause_sound:play()
             machine:switch("options", volume, self.resolutionOptions:obtainSelected())
         end,
         "Apply"

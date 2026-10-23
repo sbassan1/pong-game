@@ -11,6 +11,7 @@ A small, local two-player Pong game built with [LÖVE](https://love2d.org/).
 - Ball and paddle collisions
 - Sound effects
 - Menu handling
+- Settings
 - CRT and scanline visual effects
 
 ## Getting started
