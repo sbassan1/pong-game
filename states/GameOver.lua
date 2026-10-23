@@ -2,6 +2,7 @@ local GameOver = {}
 
 local Button = require("classes.UI.Button")
 local ButtonContainer = require("classes.UI.ButtonContainer")
+local Scale = require("classes.Scale")
 
 local victory_sound = love.audio.newSource("assets/sounds/victory.wav", "static") -- https://pixabay.com/es/sound-effects/pel%C3%ADculas-y-efectos-especiales-victory-85561/
 local title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
@@ -12,7 +13,7 @@ function GameOver:enter(winner)
     victory_sound:play()
 
 
-    local width, height = love.graphics.getDimensions()
+    local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     local button_width, button_height = 360, 90
 
     self.buttons = ButtonContainer.new()
@@ -30,7 +31,7 @@ function GameOver:enter(winner)
 end
 
 function GameOver:draw()
-    local width, height = love.graphics.getDimensions()
+    local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
 
     love.graphics.setFont(title_font)
     love.graphics.printf(self.winner .. " wins!", 0, height / 2 - 160, width, "center")

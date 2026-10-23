@@ -1,5 +1,6 @@
 local Button = {}
 Button.__index = Button
+local Scale = require("classes.Scale")
 
 function Button.new(x, y, width, height, event, label)
     assert(type(event) == "function", "Button event must be a function")
@@ -36,7 +37,7 @@ function Button:mousepressed(x, y, mouse_button, ...)
 end
 
 function Button:draw(highlighted)
-    local mouse_x, mouse_y = love.mouse.getPosition()
+    local mouse_x, mouse_y = Scale.toVirtual(love.mouse.getPosition())
     if highlighted == nil then
         highlighted = self.selected or self:contains(mouse_x, mouse_y)
     end

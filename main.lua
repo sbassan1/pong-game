@@ -1,11 +1,13 @@
 local StateMachine = require("states.StateMachine")
 local moonshine = require 'libraries.moonshine'
 local Settings = require("settings")
+local Scale = require("classes.Scale")
 
 local stateMachine
 local shader
 
 function love.load()
+    
     Settings.load()
 
     local width, height = Settings.resolution:match("^(%d+)x(%d+)$")
@@ -40,8 +42,16 @@ end
 
 function love.draw()
     shader(function()
+        Scale.begin()
         stateMachine:draw()
+        Scale.finish()
     end)
+end
+
+function love.resize(width, height)
+    if shader then
+        shader.resize(width, height)
+    end
 end
 
 function love.keypressed(key)
@@ -49,13 +59,18 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y, button)
+    x, y = Scale.toVirtual(x, y)
     stateMachine:mousepressed(x, y, button)
 end
 
 function love.mousemoved(x, y, dx, dy)
+    x, y = Scale.toVirtual(x, y)
+    local factor = Scale.getFactor()
+    dx, dy = dx / factor, dy / factor
     stateMachine:mousemoved(x, y, dx, dy)
 end
 
 function love.mousereleased(x, y, button)
+    x, y = Scale.toVirtual(x, y)
     stateMachine:mousereleased(x, y, button)
 end

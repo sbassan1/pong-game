@@ -5,13 +5,14 @@ local ButtonContainer = require("classes.UI.ButtonContainer")
 local ArrowSelector = require("classes.UI.ArrowSelector")
 local VolumeSlider = require("classes.UI.VolumeSlider")
 local Settings = require("settings")
+local Scale = require("classes.Scale")
 
 function OptionMenu:enter(volume, resolution)
 
     self.title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
     self.button_font = love.graphics.newFont("assets/fonts/game_over.ttf", 80)
 
-    local width, height = love.graphics.getDimensions()
+    local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     local button_width, button_height = 360, 90
 
 
@@ -95,7 +96,7 @@ function OptionMenu:update(dt)
 end
 
 function OptionMenu:draw()
-    local width, height = love.graphics.getDimensions()
+    local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     love.graphics.setFont(self.title_font)
     love.graphics.printf("Options", 0, height / 7, width, "center")
 

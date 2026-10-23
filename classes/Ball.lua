@@ -1,5 +1,6 @@
 local Ball = {}
 Ball.__index = Ball
+local Scale = require("classes.Scale")
 
 local speed_increase_factor = 1.15
 local time_to_reset = 1 -- time in seconds
@@ -28,7 +29,7 @@ end
 
 function Ball.new(x, y, width, height, speed)
     local self = setmetatable({}, Ball)
-    self.default_speed = love.graphics.getWidth() * 0.4
+    self.default_speed = Scale.BASE_WIDTH * 0.4
     self.x = x
     self.y = y
     self.width = width or 20
@@ -83,7 +84,7 @@ function Ball:reaches_goal()
     if self.x <= 15 then
         return -1
     else 
-        if self.x + self.width >= love.graphics.getWidth() - 15 then
+        if self.x + self.width >= Scale.BASE_WIDTH - 15 then
             return 1
         end
     end
@@ -91,8 +92,8 @@ function Ball:reaches_goal()
 end
 
 function Ball:reset(direction)
-    self.x = love.graphics.getWidth() / 2 - self.width / 2
-    self.y = love.graphics.getHeight() / 2 - self.height / 2
+    self.x = Scale.BASE_WIDTH / 2 - self.width / 2
+    self.y = Scale.BASE_HEIGHT / 2 - self.height / 2
 
     self.speed = 0
     self.reset_timer = time_to_reset
@@ -100,7 +101,7 @@ function Ball:reset(direction)
 end
 
 function Ball:wall_collision()
-    local bottom = love.graphics.getHeight() - self.height
+    local bottom = Scale.BASE_HEIGHT - self.height
 
     if self.y <= 0 then
         self.y = 0

@@ -2,12 +2,13 @@ local MainMenu = {}
 
 local Button = require("classes.UI.Button")
 local ButtonContainer = require("classes.UI.ButtonContainer")
+local Scale = require("classes.Scale")
 
 function MainMenu:enter()
     self.title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
     self.button_font = love.graphics.newFont("assets/fonts/game_over.ttf", 80)
 
-    local width, height = love.graphics.getDimensions()
+    local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     local button_width, button_height = 360, 90
 
     self.buttons = ButtonContainer.new()
@@ -50,7 +51,7 @@ function MainMenu:update(dt)
 end
 
 function MainMenu:draw()
-    local width, height = love.graphics.getDimensions()
+    local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     love.graphics.setFont(self.title_font)
     love.graphics.printf("PONG", 0, height / 2 - 180, width, "center")
 

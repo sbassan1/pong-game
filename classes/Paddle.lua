@@ -1,5 +1,6 @@
 local Paddle = {}
 Paddle.__index = Paddle
+local Scale = require("classes.Scale")
 
 function Paddle.new(x, y, width, height, speed, up_key, down_key)
     local self = setmetatable({}, Paddle)
@@ -26,7 +27,7 @@ end
 function Paddle:update(dt, movement)
     self.y = self.y + movement * self.speed * dt
 
-    local window_height = love.graphics.getHeight()
+    local window_height = Scale.BASE_HEIGHT
     if self.y < 0 then
         self.y = 0
     elseif self.y + self.height > window_height then

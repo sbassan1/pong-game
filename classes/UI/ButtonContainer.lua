@@ -1,6 +1,7 @@
 
 local ButtonContainer = {}
 ButtonContainer.__index = ButtonContainer
+local Scale = require("classes.Scale")
 
 function ButtonContainer.new(buttons)
     local container = setmetatable({
@@ -74,7 +75,7 @@ function ButtonContainer:mousepressed(x, y, mouse_button, ...)
 end
 
 function ButtonContainer:draw()
-    local mouse_x, mouse_y = love.mouse.getPosition()
+    local mouse_x, mouse_y = Scale.toVirtual(love.mouse.getPosition())
 
     for index, button in ipairs(self.buttons) do
         local highlighted

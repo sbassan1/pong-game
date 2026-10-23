@@ -3,6 +3,7 @@ local Gameplay = {}
 local Paddle = require("classes.Paddle")
 local Player = require("classes.Player")
 local Ball = require("classes.Ball")
+local Scale = require("classes.Scale")
 
 local player1, player2, ball
 local match_points = 1 -- Points required to win the game
@@ -18,7 +19,7 @@ local start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "s
 local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 function Gameplay:enter()
-    width, height = love.graphics.getDimensions()
+    width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     paddle_width = width * (10/760)
     paddle_height = height * (5/38)
     paddle_speed = width * 0.4
