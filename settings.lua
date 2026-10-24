@@ -2,7 +2,9 @@
 local Settings = {
     volume = 50,
     resolution = "1920x1080",
+    game_points = 3
 }
+
 
 local allowed_resolutions = {
     ["1366x768"] = true,
@@ -25,7 +27,12 @@ function Settings.load()
     if resolution and allowed_resolutions[resolution] then
         Settings.resolution = resolution
     end
-    
+
+    local game_points = tonumber(contents:match("game_points=(%d+)"))
+    if game_points then
+        Settings.game_points = math.max(1, game_points, 5)
+    end
+
 end
 
 function Settings.save(volume, resolution)
