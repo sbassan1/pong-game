@@ -8,7 +8,7 @@ local victory_sound = love.audio.newSource("assets/sounds/victory.wav", "static"
 local title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
 local button_font = love.graphics.newFont("assets/fonts/game_over.ttf", 100)
 
-function GameOver:enter(winner)
+function GameOver:enter(winner, machine)
     self.winner = winner
     victory_sound:play()
 
@@ -17,9 +17,34 @@ function GameOver:enter(winner)
     local button_width, button_height = 360, 90
 
     self.buttons = ButtonContainer.new()
+
     self.buttons:add(Button.new(
         (width - button_width) / 2,
-        height / 2 + 100,
+        4 * height / 6,
+        button_width,
+        button_height,
+        function(_, _, _, _, machine)
+            machine:switch("gameplay")
+        end,
+        "Rematch"
+    ))
+
+    self.buttons:add(Button.new(
+        (width - button_width) / 2,
+        4 * height / 6 + 100,
+        button_width,
+        button_height,
+        function(_, _, _, _, machine)
+            local pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
+            pause_sound:play()
+            machine:switch("mainMenu")
+        end,
+        "Main Menu"
+    ))
+
+    self.buttons:add(Button.new(
+        (width - button_width) / 2,
+        4 * height / 6 + 200,
         button_width,
         button_height,
         function(_, _, _, _, machine)
