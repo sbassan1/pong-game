@@ -4,9 +4,9 @@ local Paddle = require("classes.Paddle")
 local Player = require("classes.Player")
 local Ball = require("classes.Ball")
 local Scale = require("classes.Scale")
+local Settings = require("settings")
 
-local player1, player2, ball
-local match_points = 1 -- Points required to win the game
+local player1, player2, ball, match_points
 local width, height
 local paddle_width, paddle_height, paddle_speed
 local margin = 40
@@ -19,6 +19,7 @@ local start_game_sound = love.audio.newSource("assets/sounds/start_game.wav", "s
 local font = love.graphics.newFont('assets/fonts/game_over.ttf', 65)
 
 function Gameplay:enter()
+    match_points = Settings.game_points
     width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     paddle_width = width * (10/760)
     paddle_height = height * (5/38)
@@ -73,9 +74,9 @@ function Gameplay:update(dt, machine)
 end
 
 function Gameplay:game_end(machine)
-    if player1:get_points() >= match_points then
+    if player1:get_points() == match_points then
         machine:switch("gameOver", "Player 1")
-    elseif player2:get_points() >= match_points then
+    elseif player2:get_points() == match_points then
         machine:switch("gameOver", "Player 2")
     end
 end

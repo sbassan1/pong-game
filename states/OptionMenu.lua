@@ -7,14 +7,13 @@ local VolumeSlider = require("classes.UI.VolumeSlider")
 local Settings = require("settings")
 local Scale = require("classes.Scale")
 
-function OptionMenu:enter(volume, resolution)
+function OptionMenu:enter(volume, resolution, game_points)
 
     self.title_font = love.graphics.newFont("assets/fonts/game_over.ttf", 200)
     self.button_font = love.graphics.newFont("assets/fonts/game_over.ttf", 80)
 
     local width, height = Scale.BASE_WIDTH, Scale.BASE_HEIGHT
     local button_width, button_height = 360, 90
-
 
     self.volumeOption = VolumeSlider.new(width - (2 * width/7), 2* height / 7, button_width, button_height)
     self.volumeOption:setPercentage(volume or Settings.volume)
@@ -26,6 +25,24 @@ function OptionMenu:enter(volume, resolution)
         "1920x1080",
         "1280x720"
     })
+
+    local pointOptions = {}
+    for i = 1, Settings.game_points_max do
+        pointOptions[i] = tostring(i)
+    end
+
+    self.pointOptions = ArrowSelector.new(width/7, 3* height / 7, button_width, button_height,
+    "Game Points",
+    pointOptions)
+
+    game_points = game_points or Settings.game_points
+    for index, option in ipairs(self.pointOptions.options) do
+        if tonumber(option) == game_points then
+            self.pointOptions.selected_index = index
+            break
+        end
+    end
+
 
     resolution = resolution or Settings.resolution
     for index, option in ipairs(self.resolutionOptions.options) do
@@ -66,21 +83,29 @@ function OptionMenu:enter(volume, resolution)
             end
 
             local volume = self.volumeOption.percentage
-            local ok, err = love.window.setMode(width, height, {
-                resizable = false,
-                fullscreen = false,
-            })
+            local current_width, current_height = love.window.getMode()
+            if current_width ~= width or current_height ~= height then
+                local ok, err = love.window.setMode(width, height, {
+                    resizable = false,
+                    fullscreen = false,
+                })
 
-            if not ok then
-                print("Could not change resolution: " .. tostring(err))
-                return
+                if not ok then
+                    print("Could not change resolution: " .. tostring(err))
+                    return
+                end
+
+                love.resize(width, height)
             end
 
             love.audio.setVolume(volume / 100)
 
+            local game_points = tonumber(self.pointOptions:obtainSelected())
+
             local saved, save_error = Settings.save(
                 volume,
-                self.resolutionOptions:obtainSelected()
+                self.resolutionOptions:obtainSelected(),
+                game_points
             )
             if not saved then
                 print("Could not save settings: " .. tostring(save_error))
@@ -88,7 +113,7 @@ function OptionMenu:enter(volume, resolution)
 
             local pause_sound = love.audio.newSource("assets/sounds/pause_sound.wav", "static") -- https://samplefocus.com/samples/retro-buzzer-hit-sfx?search_id=222244974
             pause_sound:play()
-            machine:switch("options", volume, self.resolutionOptions:obtainSelected())
+            machine:switch("options", volume, self.resolutionOptions:obtainSelected(), game_points)
         end,
         "Apply"
     ))
@@ -107,6 +132,7 @@ function OptionMenu:draw()
     love.graphics.setFont(self.button_font)
     self.buttons:draw()
     self.resolutionOptions:draw()
+    self.pointOptions:draw()
     self.volumeOption:draw()
 end
 
@@ -114,6 +140,7 @@ function OptionMenu:mousepressed(x, y, button, machine)
     self.buttons:mousepressed(x, y, button, machine)
     self.resolutionOptions:mousepressed(x, y, button)
     self.volumeOption:mousepressed(x, y, button)
+    self.pointOptions:mousepressed(x,y, button)
 end
 
 function OptionMenu:keypressed(key, machine)

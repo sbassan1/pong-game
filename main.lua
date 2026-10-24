@@ -5,6 +5,7 @@ local Scale = require("classes.Scale")
 
 local stateMachine
 local shader
+local shader_width, shader_height
 
 function love.load()
     
@@ -21,6 +22,7 @@ function love.load()
     love.audio.setVolume(Settings.volume / 100)
 
     shader = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines)
+    shader_width, shader_height = love.graphics.getDimensions()
     shader.parameters = {
         crt = {distortionFactor = {1.035, 1.045}},
         scanlines = {opacity = 0.35, thickness = 2}
@@ -49,8 +51,9 @@ function love.draw()
 end
 
 function love.resize(width, height)
-    if shader then
+    if shader and (width ~= shader_width or height ~= shader_height) then
         shader.resize(width, height)
+        shader_width, shader_height = width, height
     end
 end
 
