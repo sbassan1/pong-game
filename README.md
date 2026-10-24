@@ -34,3 +34,5 @@ A small, local two-player Pong game built with [LÖVE](https://love2d.org/).
 - Press **Escape** during a match to pause or resume.
 
 The first player to score three points wins.
+
+https://sbassan1.itch.io/love2d-pong-game-example
